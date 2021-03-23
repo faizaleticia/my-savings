@@ -21,4 +21,12 @@ class Person extends Model
     protected $fillable = [
         'name', 'user_id'
     ];
+
+    /**
+     * Get the user associated with the person.
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

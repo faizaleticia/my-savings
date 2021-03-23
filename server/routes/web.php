@@ -16,10 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::group(['middleware' => ['cors'], 'prefix' => 'api' ], function ($router) {
-    $router->get('/users', 'UserController@index');
-    $router->post('/users', 'UserController@store');
-    $router->put('/users/{userId}', 'UserController@update');
-    $router->delete('/users/{userId}', 'UserController@destroy');
-});

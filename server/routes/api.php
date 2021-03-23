@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+    $router->post('register', 'JWTAuthController@register');
+    $router->post('login', 'JWTAuthController@login');
+    $router->post('logout', 'JWTAuthController@logout');
+    $router->post('refresh', 'JWTAuthController@refresh');
+    $router->get('profile', 'JWTAuthController@profile');
 });
