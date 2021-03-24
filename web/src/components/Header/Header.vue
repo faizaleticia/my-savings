@@ -7,8 +7,8 @@
       </div>
       <nav class="menu">
 				<ul class="">
-					<li><a href="/accounts">REGISTRAR-SE</a></li>
-          <li><a href="/accounts">ENTRAR</a></li>
+					<li><a href="/register">REGISTRAR</a></li>
+          <li><a href="/login">ENTRAR</a></li>
 				</ul>
 			</nav>
     </header>
