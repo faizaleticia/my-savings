@@ -39,9 +39,9 @@ class JWTAuthController extends Controller
         ]);
 
         $user = User::create([
-            'username' => $request->username,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'username'          => $request->username,
+            'email'             => $request->email,
+            'password'          => Hash::make($request->password),
         ]);
 
         $person = Person::create([
@@ -64,14 +64,14 @@ class JWTAuthController extends Controller
     {
     	$validator = Validator::make($request->all(), [
             'email'    => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        if (!$token = Auth::attempt($validator->validated())) {
+        if (!$token = Auth::attempt(array('email' => $request->email, 'password' => $request->password))) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
