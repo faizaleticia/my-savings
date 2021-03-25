@@ -1,0 +1,40 @@
+.item-content {
+  border: 1px solid #d2d2d2;
+  border-radius: 8px;
+  width: 450px;
+  margin-bottom: 15px;
+
+  min-height: 500px;
+
+  .logo {
+    img {
+      border-radius: 7px 7px 0px 0px;
+      height: 200px;
+      overflow: hidden;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .title {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+
+  .description {
+    padding: 0px 40px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 25px;
+  }
+
+  .more-information {
+    a {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #fc7677;
+      text-decoration: none;
+    }
+  }
+}

@@ -1,21 +1,32 @@
 <template>
   <div class="main-content home">
-    <div class="page-title">
-      Sobre
-    </div>
-    <div class="text-information">
-      Aplicação desenvolvida para o gerenciamento de finanças.
+    <div class="m-t-25">
+      <div class="items-content">
+        <item v-for="item in items" :key="item.title" :title="item.title" :description="item.description"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Item from '../../components/Item/Item';
 
 export default {
   name: 'Home',
 
-  create() {
-    document.title = 'Teste'
+  components: {
+    Item,
+  },
+
+  data() {
+    return {
+      items: [
+        {
+          title: 'Contas',
+          description: 'Gerencia suas contas financeiras: Ao manter suas contas financeiras no MySavings, é possível obter diversas métricas, tais como: saldo inicial, saldo atual, receitas e despesas por período e comparativos de saídas e entradas.'
+        },
+      ],
+    }
   },
 }
 </script>
