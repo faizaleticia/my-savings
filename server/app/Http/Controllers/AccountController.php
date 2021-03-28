@@ -36,17 +36,15 @@ class AccountController extends Controller
         ]);
     }
 
+    /**
+     * Save an account
+     *
+     * @param AccountRequest $request
+     *
+     * @return JsonResponse
+     */
     public function store(AccountRequest $request): JsonResponse
-    {
-        \Log::info([
-            'letter'      => $request->letter,
-            'name'        => $request->name,
-            'description' => $request->description,
-            'color'       => $request->color,
-            'user_id'     => Auth::user()->id,
-        ]);
-
-        $account = Account::create([
+    {        $account = Account::create([
             'letter'      => $request->letter,
             'name'        => $request->name,
             'description' => $request->description,
