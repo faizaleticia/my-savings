@@ -1,3 +1,5 @@
+@import "./colors.scss";
+
 body {
   background-color: #f5f8fa;
   margin: 0px;
@@ -59,20 +61,21 @@ body {
 }
 
 .btn-primary {
-  background-color: #7855f2;
+  background-color: $primary-color;
   color: #ffffff;
-  border: 1px solid #7855f2;
+  border: 1px solid $primary-color;
+  transition: all 0.3s;
 
   &:hover {
-    background-color: #6446cc;
-    border: 1px solid #6446cc;
+    background-color: $secondary-color;
+    border: 1px solid $secondary-color;
   }
 }
 
 .btn-secondary {
-  background-color: transparent;
-  border: 1px solid transparent;
-  color: #2e2f4d;
+  background-color: $secondary-color;
+  border: 1px solid $secondary-color;
+  color: #ffffff;
   margin-right: 10px;
   transition: all 0.3s;
 
@@ -80,4 +83,50 @@ body {
     background-color: #c3c3d9;
     border-color: #c3c3d9;
   }
+}
+
+.btn-ternary {
+  background-color: $ternary-color;
+  border: 1px solid $ternary-color;
+  color: #ffffff;
+  margin-right: 10px;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+}
+
+.table {
+  width: 100%;
+
+  tr {
+    line-height: 40px;
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.jc-space-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.icon {
+  margin-right: 5px;
 }

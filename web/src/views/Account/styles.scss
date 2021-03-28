@@ -17,7 +17,11 @@
     margin-bottom: 50px;
     text-align: left;
   }
-  
+
+  .text-information {
+    text-align: left;
+  }
+
   .search-content {
     width: 400px;
     margin-bottom: 50px;
@@ -54,33 +58,33 @@
 }
 
 @media (min-width: 900px) {
-  .contact { 
+  .contact {
     .content {
-      grid-template-columns: repeat(2, 1fr); 
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }
 
 @media (min-width: 1300px) {
-  .contact { 
+  .contact {
     .content {
-      grid-template-columns: repeat(3, 1fr); 
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 }
 
 @media (min-width: 1800px) {
-  .contact { 
+  .contact {
     .content {
-      grid-template-columns: repeat(4, 1fr); 
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 }
 
 @media (min-width: 2400px) {
-  .contact { 
+  .contact {
     .content {
-      grid-template-columns: repeat(5, 1fr); 
+      grid-template-columns: repeat(5, 1fr);
     }
   }
 }

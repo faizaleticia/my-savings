@@ -49,6 +49,7 @@ export default {
           password: this.password,
         }).then((response) => {
           if (response.data.access_token) {
+            localStorage.setItem('user-token', response.data.access_token);
             alert('Autenticação realizada.');
             window.location.href = '/';
           }
