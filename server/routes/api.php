@@ -24,7 +24,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 Route::group(['middleware' => 'api'], function ($router) {
     $router->get('menu-items', 'MenuItemController@index');
 
-    $router->get('accounts', 'AccountController@index');
-    $router->post('accounts', 'AccountController@store');
-    $router->put('accounts/{id}','AccountController@update');
+    $router->get('accounts', 'AccountController@index')->name('GET Accounts');
+    $router->post('accounts', 'AccountController@store')->name('POST Account');
+    $router->put('accounts/{id}', 'AccountController@update')->name('PUT Account');
+    $router->delete('accounts/{id}', 'AccountController@destroy')->name('DELETE Account');
 });

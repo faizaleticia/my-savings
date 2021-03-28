@@ -84,4 +84,23 @@ class AccountController extends Controller
             'account'  => $account,
         ]);
     }
+
+    /**
+     * Remove an account
+     *
+     * @param String $id
+     *
+     * @return JsonResponse
+     */
+    public function destroy(String $id): JsonResponse
+    {
+        $account = Account::find($id);
+        $account->delete();
+
+        return response()->json([
+            'success'  => true,
+            'message'  => 'Conta removida com sucesso.',
+            'account'  => $account,
+        ]);
+    }
 }
