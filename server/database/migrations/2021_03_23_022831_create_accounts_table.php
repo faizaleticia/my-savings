@@ -19,6 +19,8 @@ class CreateAccountsTable extends Migration
             $table->string('description');
             $table->string('letter', 3);
             $table->string('color', 11);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

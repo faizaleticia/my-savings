@@ -14,14 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+    $router->post('register', 'JWTAuthController@register');
+    $router->post('login', 'JWTAuthController@login');
     $router->post('logout', 'JWTAuthController@logout');
     $router->post('refresh', 'JWTAuthController@refresh');
     $router->get('profile', 'JWTAuthController@profile');
 });
 
 Route::group(['middleware' => 'api'], function ($router) {
-    $router->post('register', 'JWTAuthController@register');
-    $router->post('login', 'JWTAuthController@login');
-
     $router->get('menu-items', 'MenuItemController@index');
+
+    $router->get('accounts', 'AccountController@index');
+    $router->post('accounts', 'AccountController@store');
 });

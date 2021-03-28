@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\FormRequest;
 
-class ContactRequest extends FormRequest
+class AccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,20 +32,16 @@ class ContactRequest extends FormRequest
             case 'POST':
                 {
                     return [
-                        'name'      => 'required|string',
-                        'email'     => 'required|unique:contacts,email',
-                        'phone'     => 'required',
-                        'birthDate' => 'required',
+                        'name'        => 'required|string',
+                        'description' => 'required|string',
                     ];
                 }
             case 'PUT':
             case 'PATCH':
                 {
                     return [
-                        'name'      => 'required|string',
-                        'email'     => 'required|unique:contacts,email,' . $this->get('id'),
-                        'phone'     => 'required',
-                        'birthDate' => 'required',
+                        'name'        => 'required|string',
+                        'description' => 'required|string',
                     ];
                 }
             default:break;
@@ -55,11 +51,8 @@ class ContactRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'      => 'O campo nome é obrigatório',
-            'email.required'     => 'O campo e-mail é obrigatório',
-            'email.unique'       => 'O e-mail já está sendo utilizado por outro contato.',
-            'phone.required'     => 'O campo telefone é obrigatório',
-            'birthDate.required' => 'O campo data de nascimento é obrigatório',
+            'name.required'        => 'O campo nome é obrigatório',
+            'description.required' => 'O campo descrição é obrigatório',
         ];
     }
 
