@@ -1,7 +1,6 @@
 <template>
   <transition name="fade">
-    <!-- <div :id="contact.id ? `modal_${contact.id}` : 'modal'" class="modal hidden"> -->
-    <div id="modal" class="modal hidden">
+    <div :id="`modal_${account ? account.id : ''}`" class="modal hidden">
       <div class="content">
         <div class="header">
           <div class="title"><span>Adicionar conta</span></div>
@@ -41,8 +40,13 @@
 <script>
 import api from '../../services/api';
 export default {
+  name: 'ModalManageAccount',
+
+  props: ['account'],
+
   data() {
     return {
+      id: null,
       name: null,
       description: null,
       letter: null,
@@ -50,9 +54,19 @@ export default {
     }
   },
 
+  mounted() {
+    if (this.account) {
+      this.id = this.account.id;
+      this.letter = this.account.letter;
+      this.name = this.account.name;
+      this.description = this.account.description;
+      this.color = this.account.color;
+    }
+  },
+
   methods: {
     close() {
-      const modal = document.getElementById('modal');
+      const modal = document.getElementById(`modal_${this.account ? this.account.id : ''}`);
       modal.classList.remove('show');
       modal.classList.add('hidden');
       const body = document.body;
@@ -64,31 +78,65 @@ export default {
         && this.name !== null && this.name !== ''
         && this.description !== null && this.description !== ''
         && this.color !== null && this.color !== '') {
-          api.post('/accounts', {
-            letter: this.letter,
-            name: this.name,
-            description: this.description,
-            color: this.color,
-          }, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('user-token')}`
-            }
-          })
-            .then((response) => {
-              if (response.data.success) {
-                this.letter = null;
-                this.name = null;
-                this.description = null;
-                this.color = null;
-                this.close();
-              }
-
-              alert(response.data.message);
-
-              this.$router.go();
-            })
+          if (this.account) {
+            this.edit();
+          } else {
+            this.add();
+          }
       }
-    }
+    },
+
+    add() {
+      api.post('/accounts', {
+        letter: this.letter,
+        name: this.name,
+        description: this.description,
+        color: this.color,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('user-token')}`
+        }
+      })
+        .then((response) => {
+          if (response.data.success) {
+            this.letter = null;
+            this.name = null;
+            this.description = null;
+            this.color = null;
+            this.close();
+          }
+
+          alert(response.data.message);
+
+          this.$router.go();
+        });
+    },
+
+    edit() {
+      api.put(`/accounts/${this.account.id}`, {
+        letter: this.letter,
+        name: this.name,
+        description: this.description,
+        color: this.color,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('user-token')}`
+        }
+      })
+        .then((response) => {
+          if (response.data.success) {
+            this.letter = null;
+            this.name = null;
+            this.description = null;
+            this.color = null;
+            this.close();
+          }
+
+          alert(response.data.message);
+
+          this.$router.go();
+        });
+    },
   }
 }
 </script>

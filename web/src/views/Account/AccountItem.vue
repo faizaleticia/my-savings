@@ -10,7 +10,7 @@
       {{ account.description }}
     </td>
     <td>
-      <button type="button" class="btn btn-ternary">
+      <button type="button" class="btn btn-ternary" @click="showManageAcccount">
         <i class="icon far fa-edit" />
         Editar
       </button>
@@ -27,5 +27,17 @@ export default {
   name: 'AccountItem',
 
   props: ['account'],
+
+  methods: {
+    showManageAcccount() {
+      const modal = document.getElementById(`modal_${this.account.id}`);
+      modal.classList.remove('hidden');
+      modal.classList.add('show');
+      const body = document.body;
+      body.classList.add('show-modal');
+
+      this.$emit('increment-btn', 1);
+    },
+  }
 }
 </script>

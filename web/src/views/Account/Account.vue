@@ -13,25 +13,25 @@
       <account-list />
     </div>
 
-    <modal-add-account />
+    <modal-manage-account />
   </div>
 </template>
 
 <script>
 
 import AccountList from './AccountList';
-import ModalAddAccount from './ModalAddAccount';
+import ModalManageAccount from './ModalManageAccount';
 
 export default {
   name: 'Account',
 
   components: {
     AccountList,
-    ModalAddAccount,
+    ModalManageAccount,
   },
 
   methods: {
-    showAddAcccount() {
+    showManageAcccount() {
       const modal = document.getElementById(`modal`);
       modal.classList.remove('hidden');
       modal.classList.add('show');

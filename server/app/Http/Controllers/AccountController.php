@@ -58,4 +58,30 @@ class AccountController extends Controller
             'account'  => $account,
         ]);
     }
+
+    /**
+     * Update an account
+     *
+     * @param String $id
+     * @param AccountRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function update(String $id, AccountRequest $request): JsonResponse
+    {
+        $account = Account::find($id);
+
+        $account->update([
+            'letter'      => $request->letter,
+            'name'        => $request->name,
+            'description' => $request->description,
+            'color'       => $request->color,
+        ]);
+
+        return response()->json([
+            'success'  => true,
+            'message'  => 'Conta atualizada com sucesso.',
+            'account'  => $account,
+        ]);
+    }
 }

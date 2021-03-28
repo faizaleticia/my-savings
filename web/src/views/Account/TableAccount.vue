@@ -22,6 +22,12 @@
         :key="account.id"
         :account="account"
       />
+
+      <modal-manage-account
+        v-for="account in accounts"
+        :key="account.id"
+        :account="account"
+      />
     </tbody>
   </table>
 </template>
@@ -29,6 +35,7 @@
 <script>
 
 import AccountItem from './AccountItem';
+import ModalManageAccount from './ModalManageAccount';
 
 export default {
   name: 'TableAccount',
@@ -37,6 +44,7 @@ export default {
 
   components: {
     AccountItem,
+    ModalManageAccount,
   },
 }
 </script>

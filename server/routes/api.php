@@ -26,4 +26,5 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     $router->get('accounts', 'AccountController@index');
     $router->post('accounts', 'AccountController@store');
+    $router->put('accounts/{id}','AccountController@update');
 });
