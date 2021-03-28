@@ -2,7 +2,13 @@
   <div class="main-content home">
     <div class="m-t-25">
       <div class="items-content" v-if="items">
-        <item v-for="item in items" :key="item.title" :title="item.title" :description="item.description"/>
+        <item
+          v-for="item in items"
+          :key="item.title"
+          :title="item.title"
+          :description="item.description"
+          :route="item.route"
+        />
       </div>
     </div>
   </div>

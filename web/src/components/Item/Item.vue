@@ -9,7 +9,7 @@
         {{description}}
       </div>
       <div class="m-t-25 more-information">
-        <a href="/" alt="Gerencie aqui">
+        <a :href="route" alt="Gerencie aqui">
           Gerencie aqui
         </a>
       </div>
@@ -20,7 +20,7 @@
 <script>
 
 export default {
-  props: ['title', 'description'],
+  props: ['title', 'description', 'route'],
 
   name: 'Item',
 }
