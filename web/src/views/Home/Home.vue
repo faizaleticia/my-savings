@@ -1,7 +1,7 @@
 <template>
   <div class="main-content home">
     <div class="m-t-25">
-      <div class="items-content">
+      <div class="items-content" v-if="items">
         <item v-for="item in items" :key="item.title" :title="item.title" :description="item.description"/>
       </div>
     </div>
@@ -9,7 +9,9 @@
 </template>
 
 <script>
+
 import Item from '../../components/Item/Item';
+import api from '../../services/api';
 
 export default {
   name: 'Home',
@@ -20,14 +22,26 @@ export default {
 
   data() {
     return {
-      items: [
-        {
-          title: 'Contas',
-          description: 'Gerencia suas contas financeiras: Ao manter suas contas financeiras no MySavings, é possível obter diversas métricas, tais como: saldo inicial, saldo atual, receitas e despesas por período e comparativos de saídas e entradas.'
-        },
-      ],
+      items: null,
     }
   },
+
+  created() {
+    this.getMenuItems();
+  },
+
+  methods: {
+    getMenuItems() {
+      api.get('/menu-items')
+        .then((response) => {
+          if (response.data.success) {
+            this.items = response.data.menu_items;
+          } else {
+            console.log(response.data.message);
+          }
+        })
+    }
+  }
 }
 </script>
 
