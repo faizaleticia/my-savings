@@ -32,16 +32,20 @@ class AccountRequest extends FormRequest
             case 'POST':
                 {
                     return [
+                        'letter'      => 'required|string',
                         'name'        => 'required|string',
                         'description' => 'required|string',
+                        'color'       => 'required|string',
                     ];
                 }
             case 'PUT':
             case 'PATCH':
                 {
                     return [
+                        'letter'      => 'required|string',
                         'name'        => 'required|string',
                         'description' => 'required|string',
+                        'color'       => 'required|string',
                     ];
                 }
             default:break;
@@ -51,8 +55,10 @@ class AccountRequest extends FormRequest
     public function messages()
     {
         return [
+            'letter.required'      => 'O campo letra é obrigatório',
             'name.required'        => 'O campo nome é obrigatório',
             'description.required' => 'O campo descrição é obrigatório',
+            'color.required'       => 'O campo cor é obrigatório',
         ];
     }
 

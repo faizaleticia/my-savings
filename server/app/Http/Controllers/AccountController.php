@@ -44,7 +44,8 @@ class AccountController extends Controller
      * @return JsonResponse
      */
     public function store(AccountRequest $request): JsonResponse
-    {        $account = Account::create([
+    {
+        $account = Account::create([
             'letter'      => $request->letter,
             'name'        => $request->name,
             'description' => $request->description,
