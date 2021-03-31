@@ -43,17 +43,8 @@ class AccountTest extends TestCase
     {
         $user    = User::where('email', config('test.api.email'))->first();
         $token   = JWTAuth::fromUser($user);
-        $baseUrl = config('app.url') . '/api/accounts?token=' . $token;
 
-        $faker = Faker::create();
-
-        $response = $this->json('POST', $baseUrl . '/', [
-            'letter'      => strtoupper($faker->randomLetter()),
-            'name'        => $faker->company(),
-            'description' => $faker->catchPhrase(),
-            'color'       => strtoupper($faker->hexcolor()),
-            'user_id'     => $user->id,
-        ]);
+        $response = $this->createAccount($user, $token);
 
         $response
             ->assertStatus(200)
@@ -67,7 +58,7 @@ class AccountTest extends TestCase
      *
      * @return void
      */
-    public function testValidateMessageAccount()
+    public function testValidateMessageCreateAccount()
     {
         $user    = User::where('email', config('test.api.email'))->first();
         $token   = JWTAuth::fromUser($user);
@@ -123,5 +114,111 @@ class AccountTest extends TestCase
             $responseContent['errors']['color'][0],
             'The validation message for the color is incorrect.'
         );
+    }
+
+    /**
+     * Validate update account
+     *
+     * @return void
+     */
+    public function testUpdateAccount()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $account = Account::where('user_id', $user->id)->get()->random();
+
+        if (!$account) {
+            $response = $this->createAccount($user, $token);
+
+            $response
+                ->assertStatus(200)
+                ->assertJsonStructure([
+                    'success', 'message', 'account'
+                ]);
+
+            $account  = json_decode($response->getContent(), true)['account'];
+        }
+
+        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '?token=' . $token;
+
+        $faker   = Faker::create();
+
+        $response = $this->json('PUT', $baseUrl . '/', [
+            'letter'      => $account['letter'],
+            'name'        => $account['name'],
+            'description' => $faker->catchPhrase(),
+            'color'       => $account['color'],
+            'user_id'     => $user->id,
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'account'
+            ]);
+
+        $updatedAccount = json_decode($response->getContent(), true)['account'];
+
+        $this->assertEquals($account['letter'], $updatedAccount['letter']);
+        $this->assertEquals($account['name'], $updatedAccount['name']);
+        $this->assertNotEquals($account['description'], $updatedAccount['description']);
+        $this->assertEquals($account['color'], $updatedAccount['color']);
+        $this->assertEquals($account['user_id'], $updatedAccount['user_id']);
+    }
+
+    /**
+     * Validate delete account
+     */
+    public function testDestroyAccount()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $account = Account::where('user_id', $user->id)->get()->random();
+
+        if (!$account) {
+            $response = $this->createAccount($user, $token);
+
+            $response
+                ->assertStatus(200)
+                ->assertJsonStructure([
+                    'success', 'message', 'account'
+                ]);
+
+            $account  = json_decode($response->getContent(), true)['account'];
+        }
+
+        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '?token=' . $token;
+
+        $response = $this->json('DELETE', $baseUrl . '/', []);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'account'
+            ]);
+    }
+
+    /**
+     * Create account
+     *
+     * @return Response
+     */
+    private function createAccount(User $user, String $token)
+    {
+        $baseUrl = config('app.url') . '/api/accounts?token=' . $token;
+
+        $faker = Faker::create();
+
+        $response = $this->json('POST', $baseUrl . '/', [
+            'letter'      => strtoupper($faker->randomLetter()),
+            'name'        => $faker->company(),
+            'description' => $faker->catchPhrase(),
+            'color'       => strtoupper($faker->hexcolor()),
+            'user_id'     => $user->id,
+        ]);
+
+        return $response;
     }
 }

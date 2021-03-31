@@ -62,10 +62,13 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Implemented Tests
 
--   Login Test
--   Logout Test
--   Refresh Test
--   User/Person register
--   Get all accounts
--   Create account
--   Validate errors message
+1.  Login Test
+2.  Logout Test
+3.  Refresh Test
+4.  User/Person register
+5.  Get all accounts
+6.  Create account
+7.  Update account
+8.  Delete account
+9.  Validate errors message
+10. Get all transaction types

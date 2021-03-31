@@ -31,9 +31,9 @@ class TransactionTypeController extends Controller
         $transactions = TransactionType::all();
 
         return response()->json([
-            'success'      => true,
-            'message'      => 'Dados obtidos com sucesso.',
-            'transactions' => $transactions,
+            'success'           => true,
+            'message'           => 'Dados obtidos com sucesso.',
+            'transaction_types' => $transactions,
         ]);
     }
 
