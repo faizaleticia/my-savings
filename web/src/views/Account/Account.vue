@@ -3,7 +3,7 @@
     <div class="page-title d-flex jc-space-between">
       <div>Contas</div>
       <div>
-        <button type="button" class="btn btn-primary" @click="showAddAcccount">
+        <button type="button" class="btn btn-primary" @click="showManageAcccount">
           <i class="icon fas fa-plus" />
           Adicionar conta
         </button>
@@ -32,7 +32,7 @@ export default {
 
   methods: {
     showManageAcccount() {
-      const modal = document.getElementById(`modal`);
+      const modal = document.getElementById(`modal_`);
       modal.classList.remove('hidden');
       modal.classList.add('show');
       const body = document.body;
