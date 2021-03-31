@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Account;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 
+use App\Account;
 use App\User;
 
 use Faker\Factory as Faker;
@@ -126,9 +128,9 @@ class AccountTest extends TestCase
         $user    = User::where('email', config('test.api.email'))->first();
         $token   = JWTAuth::fromUser($user);
 
-        $account = Account::where('user_id', $user->id)->get()->random();
+        $accounts = Account::where('user_id', $user->id)->get();
 
-        if (!$account) {
+        if ($accounts->count() === 0) {
             $response = $this->createAccount($user, $token);
 
             $response
@@ -137,7 +139,9 @@ class AccountTest extends TestCase
                     'success', 'message', 'account'
                 ]);
 
-            $account  = json_decode($response->getContent(), true)['account'];
+            $account = (Object) json_decode($response->getContent(), true)['account'];
+        } else {
+            $account = $accounts->random();
         }
 
         $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '?token=' . $token;
@@ -145,10 +149,10 @@ class AccountTest extends TestCase
         $faker   = Faker::create();
 
         $response = $this->json('PUT', $baseUrl . '/', [
-            'letter'      => $account['letter'],
-            'name'        => $account['name'],
+            'letter'      => $account->letter,
+            'name'        => $account->name,
             'description' => $faker->catchPhrase(),
-            'color'       => $account['color'],
+            'color'       => $account->color,
             'user_id'     => $user->id,
         ]);
 
@@ -158,13 +162,13 @@ class AccountTest extends TestCase
                 'success', 'message', 'account'
             ]);
 
-        $updatedAccount = json_decode($response->getContent(), true)['account'];
+        $updatedAccount = (Object) json_decode($response->getContent(), true)['account'];
 
-        $this->assertEquals($account['letter'], $updatedAccount['letter']);
-        $this->assertEquals($account['name'], $updatedAccount['name']);
-        $this->assertNotEquals($account['description'], $updatedAccount['description']);
-        $this->assertEquals($account['color'], $updatedAccount['color']);
-        $this->assertEquals($account['user_id'], $updatedAccount['user_id']);
+        $this->assertEquals($account->letter, $updatedAccount->letter);
+        $this->assertEquals($account->name, $updatedAccount->name);
+        $this->assertNotEquals($account->description, $updatedAccount->description);
+        $this->assertEquals($account->color, $updatedAccount->color);
+        $this->assertEquals($account->user_id, $updatedAccount->user_id);
     }
 
     /**
@@ -175,9 +179,9 @@ class AccountTest extends TestCase
         $user    = User::where('email', config('test.api.email'))->first();
         $token   = JWTAuth::fromUser($user);
 
-        $account = Account::where('user_id', $user->id)->get()->random();
+        $accounts = Account::where('user_id', $user->id)->get();
 
-        if (!$account) {
+        if ($accounts->count() === 0) {
             $response = $this->createAccount($user, $token);
 
             $response
@@ -186,7 +190,9 @@ class AccountTest extends TestCase
                     'success', 'message', 'account'
                 ]);
 
-            $account  = json_decode($response->getContent(), true)['account'];
+            $account = (Object) json_decode($response->getContent(), true)['account'];
+        } else {
+            $account = $accounts->random();
         }
 
         $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '?token=' . $token;
