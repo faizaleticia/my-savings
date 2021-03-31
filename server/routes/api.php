@@ -28,4 +28,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     $router->post('accounts', 'AccountController@store')->name('POST Account');
     $router->put('accounts/{id}', 'AccountController@update')->name('PUT Account');
     $router->delete('accounts/{id}', 'AccountController@destroy')->name('DELETE Account');
+
+    $router->get('transaction-types', 'TransactionTypeController@index')->name('GET Transaction Types');
+    $router->post('transaction-types', 'TransactionTypeController@store')->name('POST Transaction Types');
+    $router->put('transaction-types/{id}', 'TransactionTypeController@update')->name('PUT Transaction Types');
+    $router->delete('transaction-types/{id}', 'TransactionTypeController@destroy')->name('DELETE Transaction Types');
 });
