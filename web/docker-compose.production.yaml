@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  prod:
+    container_name: my-savings-web-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    ports:
+      - "80:80"

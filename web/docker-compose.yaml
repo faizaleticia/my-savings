@@ -8,11 +8,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
-
-  prod:
-    container_name: my-savings-web-prod
-    build:
-      context: .
-      dockerfile: Dockerfile.production
-    ports:
-      - "80:80"
