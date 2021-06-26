@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  db_prod:
+    build:
+      context: ./
+      dockerfile: Dockerfile.production
+    image: mysql:5.7
+    container_name: my-savings-db-prod
+    restart: unless-stopped
+    expose:
+      - "1306"
+    ports:
+      - "1306:3306"
+    environment:
+      MYSQL_DATABASE: my_savings_db_prod
+      MYSQL_USER: my_savings_db
+      MYSQL_PASSWORD: my_savings_db
+      MYSQL_ROOT_PASSWORD: my_savings_db
+
+    volumes:
+      - mysqldataprod:/var/lib/mysql/
+    networks:
+      - my_savings_network_prod
+
+  app_prod:
+    build:
+      context: ./
+      dockerfile: Dockerfile.app.production
+    ports:
+      - "8181:8181"
+    image: my_savings_prod
+    container_name: my-savings-app-prod
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - my_savings_network_prod
+
+networks:
+  my_savings_network_prod:
+    driver: bridge
+volumes:
+  mysqldataprod:
+    driver: local
