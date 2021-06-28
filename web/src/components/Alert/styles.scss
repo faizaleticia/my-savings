@@ -1,0 +1,31 @@
+.alert-message {
+  position: absolute;
+  top: 150px;
+  right: 50px;
+  width: 300px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+
+  i {
+    font-size: 1.4rem;
+  }
+}
+
+.success {
+  background-color: #3d9e3d94;
+
+  i {
+    color: #236b23;
+  }
+}
+
+.danger {
+  background-color: #e05e5eb8;
+
+  i {
+    color: #b82e24;
+  }
+}
