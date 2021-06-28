@@ -30,16 +30,7 @@ class TransactionTest extends TestCase
 
         $account = $this->getAccount($user, $token);
 
-        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '/transactions?token=' . $token;
-
-        $faker = Faker::create();
-
-        $transactionType = $this->getTransactionTypes($token);
-
-        $response = $this->json('POST', $baseUrl . '/', [
-            'value'               => $faker->numberBetween(0, 200),
-            'transaction_type_id' => $transactionType->id,
-        ]);
+        $response = $this->createTransaction($account, $token);
 
         $response
             ->assertStatus(200)
@@ -51,10 +42,58 @@ class TransactionTest extends TestCase
 
         $transaction = Transaction::where('id', $createdTransaction->id)
             ->where('account_id', $account->id)
-            ->where('transaction_type_id', $transactionType->id)
+            ->where('transaction_type_id', $createdTransaction->transaction_type_id)
             ->first();
 
         $this->assertNotNull($transaction);
+    }
+
+    /**
+     * Validate delete transaction by user account
+     */
+    public function testDestroyTransactionByUserAccount()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $account     = $this->getAccount($user, $token);
+        $transaction = $this->getTransaction($account, $token);
+
+        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '/transactions/' . $transaction->id . '?token=' . $token;
+
+        $response = $this->json('DELETE', $baseUrl . '/', []);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'transaction'
+            ]);
+    }
+
+    /**
+     * Get Transaction
+     *
+     * @return Response
+     */
+    private function getTransaction($account, String $token)
+    {
+        $transactions = Transaction::where('account_id', $account->id)->get();
+
+        if ($transactions->count() === 0) {
+            $response = $this->createTransaction($account, $token);
+
+            $response
+                ->assertStatus(200)
+                ->assertJsonStructure([
+                    'success', 'message', 'transaction'
+                ]);
+
+            $transaction = (object) json_decode($response->getContent(), true)['transaction'];
+        } else {
+            $transaction = $transactions->random();
+        }
+
+        return $account;
     }
 
     /**
@@ -107,6 +146,27 @@ class TransactionTest extends TestCase
         }
 
         return $transactionType;
+    }
+
+    /**
+     * Create transaction
+     *
+     * @return Response
+     */
+    private function createTransaction($account, String $token)
+    {
+        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '/transactions?token=' . $token;
+
+        $faker = Faker::create();
+
+        $transactionType = $this->getTransactionTypes($token);
+
+        $response = $this->json('POST', $baseUrl . '/', [
+            'value'               => $faker->numberBetween(0, 200),
+            'transaction_type_id' => $transactionType->id,
+        ]);
+
+        return $response;
     }
 
     /**
