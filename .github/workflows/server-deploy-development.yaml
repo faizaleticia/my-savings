@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Enter server folder
+        run: cd server
       - name: Build server containers
-        working-directory: ./server
         run: docker-compose -f "docker-compose.yml" build --no-cache
