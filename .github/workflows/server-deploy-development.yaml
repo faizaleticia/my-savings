@@ -11,11 +11,13 @@ on:
       - main
 
 jobs:
-  docker:
+  server-deploy-development:
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Enter server folder
         run: cd server
       - name: Build server containers
