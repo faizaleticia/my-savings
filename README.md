@@ -29,6 +29,14 @@ My Savings project use MySql as database. The MySQL Database is the most popular
 
 ## Change control tools
 
+To organize and prioritize the tasks, was used from Github Projects tool. In this tool, it was elaborated an adapted Kanban board for the workflow of the project. The created columns are:
+
+- **Backlog:** In this column are available the tasks in the form of an idea, that is, Nessa coluna são disponibilizadas as tarefas na forma de ideia, ou seja, the tasks that have not yet been approved for development and will be discussed in a meeting.
+- **To do:** In this column are placed the tasks that must be done. The order of tasks is carried out by delivery priority, so the most urgent will always appear at the top of the list.
+- **Doing:** This column lists the tasks that are in progress in the project.
+- **Waiting:** This column displays tasks that are waiting for some action, such as client validation.
+- **Done:** In this column are all the tasks already completed for the project. The order of tasks is carried out by completion, so the last finished will be at the top of the list.
+
 ## Integration tool
 
 ## Test tools
