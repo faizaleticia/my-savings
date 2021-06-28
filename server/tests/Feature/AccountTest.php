@@ -139,7 +139,7 @@ class AccountTest extends TestCase
                     'success', 'message', 'account'
                 ]);
 
-            $account = (Object) json_decode($response->getContent(), true)['account'];
+            $account = (object) json_decode($response->getContent(), true)['account'];
         } else {
             $account = $accounts->random();
         }
@@ -162,7 +162,7 @@ class AccountTest extends TestCase
                 'success', 'message', 'account'
             ]);
 
-        $updatedAccount = (Object) json_decode($response->getContent(), true)['account'];
+        $updatedAccount = (object) json_decode($response->getContent(), true)['account'];
 
         $this->assertEquals($account->letter, $updatedAccount->letter);
         $this->assertEquals($account->name, $updatedAccount->name);
@@ -190,7 +190,7 @@ class AccountTest extends TestCase
                     'success', 'message', 'account'
                 ]);
 
-            $account = (Object) json_decode($response->getContent(), true)['account'];
+            $account = (object) json_decode($response->getContent(), true)['account'];
         } else {
             $account = $accounts->random();
         }
