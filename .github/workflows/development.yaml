@@ -60,6 +60,11 @@ jobs:
         run: php artisan config:clear
       - name: Test with phpunit
         working-directory: ./server
+        env:
+          MYSQL_DATABASE: my_savings_db
+          DB_USERNAME: root
+          DB_PASSWORD: admin
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: vendor/bin/phpunit --coverage-text
 
   # server-build-development:
