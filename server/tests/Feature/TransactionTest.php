@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Account;
+use App\Enums\OperationType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -146,6 +147,55 @@ class TransactionTest extends TestCase
         $quantidade = Transaction::where('account_id', $account->id)->count();
 
         $this->assertEquals($quantidade, 0);
+    }
+
+    /**
+     * Validate total by user account
+     */
+    public function testTotalByUserAccount()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $account = $this->getAccount($user, $token);
+
+        $faker = Faker::create();
+
+        $quantidadeTransacoes = $faker->numberBetween(2, 5);
+
+        $total = 0;
+
+        for ($i = 0; $i < $quantidadeTransacoes; $i++) {
+            $transactionType = $this->getTransactionType($token);
+
+            $value = $faker->numberBetween(1, 600);
+
+            Transaction::create([
+                'account_id'          => $account->id,
+                'value'               => $value,
+                'transaction_type_id' => $transactionType->id,
+            ]);
+
+            if ($transactionType->operation === OperationType::getKey(OperationType::Subtraction)) {
+                $total -= $value;
+            } else if ($transactionType->operation === OperationType::getKey(OperationType::Sum)) {
+                $total += $value;
+            }
+        }
+
+        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '/total?token=' . $token;
+
+        $response = $this->json('GET', $baseUrl . '/', []);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'total'
+            ]);
+
+        $totalAPI = json_decode($response->getContent(), true)['total'];
+
+        $this->assertEquals($total, $totalAPI);
     }
 
     /**
