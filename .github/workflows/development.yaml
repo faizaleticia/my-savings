@@ -23,7 +23,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: admin
           MYSQL_DATABASE: my_savings_db
         ports:
-          - 3306:3306
+          - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -41,15 +41,20 @@ jobs:
           php-version: "7.4"
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
+      - name: Verify MySQL connection
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uuser -psecret -e "SHOW DATABASES"
       - name: Install Dependencies (PHP Vendors)
         working-directory: ./server
         run: composer install
-      - name: Get permissions
-        working-directory: ./server
-        run: chmod -R 777 storage
       - name: Generate key
         working-directory: ./server
         run: php artisan key:generate
+      - name: Setup Permissions
+        working-directory: ./server
+        run: chmod -R 777 storage
       - name: Clear Config
         working-directory: ./server
         run: php artisan config:clear
