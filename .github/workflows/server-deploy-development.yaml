@@ -1,0 +1,21 @@
+name: Server Deploy Development
+
+on:
+  push:
+    branches:
+      - main
+      - features/**
+      - dependabot/**
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build server containers
+        working-directory: ./server
+        run: docker-compose -f "docker-compose.yml" build --no-cache
