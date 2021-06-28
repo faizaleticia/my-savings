@@ -18,7 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Enter server folder
-        run: cd server
+      # - name: Enter server folder
+      #   run: cd server
       - name: Build server containers
+        working-directory: ./server
         run: docker-compose -f "docker-compose.yml" build --no-cache
