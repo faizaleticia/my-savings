@@ -27,8 +27,14 @@ class TransactionTypeSeeder extends Seeder
 
         TransactionType::create([
             'code'      => 2,
-            'name'      => 'Transferência',
+            'name'      => 'Transferência Saída',
             'operation' => OperationType::getKey(OperationType::Subtraction)
+        ]);
+
+        TransactionType::create([
+            'code'      => 2,
+            'name'      => 'Transferência Entrada',
+            'operation' => OperationType::getKey(OperationType::Sum)
         ]);
     }
 }
