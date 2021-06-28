@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Enums\OperationType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 
+use App\Enums\OperationType;
+
+use App\TransactionType;
 use App\User;
 
 use Faker\Factory as Faker;
@@ -53,26 +55,6 @@ class TransactionTypeTest extends TestCase
             ->assertJsonStructure([
                 'success', 'message', 'transaction_type'
             ]);
-    }
-
-    /**
-     * Create transaction type
-     *
-     * @return Response
-     */
-    private function createTransactionType(String $token)
-    {
-        $baseUrl = config('app.url') . '/api/transaction-types?token=' . $token;
-
-        $faker = Faker::create();
-
-        $response = $this->json('POST', $baseUrl . '/', [
-            'code'      => $faker->numberBetween(0, 10),
-            'name'      => $faker->name,
-            'operation' => $faker->numberBetween(0, 1),
-        ]);
-
-        return $response;
     }
 
     /**
@@ -125,5 +107,74 @@ class TransactionTypeTest extends TestCase
             $responseContent['errors']['operation'][0],
             'The validation message for the operation is incorrect.'
         );
+    }
+
+    /**
+     * Validate update transaction type
+     *
+     * @return void
+     */
+    public function testUpdateTransactionType()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $transactionTypes = TransactionType::all();
+
+        if ($transactionTypes->count() === 0) {
+            $response = $this->createTransactionType($token);
+
+            $response
+                ->assertStatus(200)
+                ->assertJsonStructure([
+                    'success', 'message', 'transaction_type'
+                ]);
+
+            $transactionType = (object) json_decode($response->getContent(), true)['transaction_type'];
+        } else {
+            $transactionType = $transactionTypes->random();
+        }
+
+        $baseUrl = config('app.url') . '/api/transaction-types/' . $transactionType->id . '?token=' . $token;
+
+        $faker   = Faker::create();
+
+        $response = $this->json('PUT', $baseUrl . '/', [
+            'code'        => $transactionType->code,
+            'name'        => $faker->name,
+            'operation'   => OperationType::getValue($transactionType->operation),
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'transaction_type'
+            ]);
+
+        $updatedTransactionType = (object) json_decode($response->getContent(), true)['transaction_type'];
+
+        $this->assertEquals($transactionType->code, $updatedTransactionType->code);
+        $this->assertNotEquals($transactionType->name, $updatedTransactionType->name);
+        $this->assertEquals($transactionType->operation, $updatedTransactionType->operation);
+    }
+
+    /**
+     * Create transaction type
+     *
+     * @return Response
+     */
+    private function createTransactionType(String $token)
+    {
+        $baseUrl = config('app.url') . '/api/transaction-types?token=' . $token;
+
+        $faker = Faker::create();
+
+        $response = $this->json('POST', $baseUrl . '/', [
+            'code'      => $faker->numberBetween(0, 10),
+            'name'      => $faker->name,
+            'operation' => $faker->numberBetween(0, 1),
+        ]);
+
+        return $response;
     }
 }
