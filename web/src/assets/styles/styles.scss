@@ -44,6 +44,10 @@ body {
   border-radius: 0px;
 }
 
+.input-error {
+  border: 1px solid #b82e24;
+}
+
 .btn {
   font-family: Barlow, sans-serif;
   transition: all 0.3s;
