@@ -135,4 +135,18 @@ class AuthTest extends TestCase
         $this->assertNull(Person::where('user_id', $userId)->first(), 'Problem removing person.');
         $this->assertNull(User::find($userId), 'Problem removing user.');
     }
+
+    /**
+     * Test get Profile
+     */
+    public function testGetProfile()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+        $baseUrl  = config('app.url') . '/api/auth/profile?token=' . $token;
+
+        $response = $this->json('GET', $baseUrl . '/', []);
+
+        $response->assertStatus(200);
+    }
 }
