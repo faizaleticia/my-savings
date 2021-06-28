@@ -74,4 +74,56 @@ class TransactionTypeTest extends TestCase
 
         return $response;
     }
+
+    /**
+     * Validate erros message from create transaction type
+     *
+     * @return void
+     */
+    public function testValidateMessageCreateTransactionType()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+        $baseUrl = config('app.url') . '/api/transaction-types?token=' . $token;
+
+        $response = $this->json('POST', $baseUrl . '/', []);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors']);
+
+        $responseContent = json_decode($response->getContent(), true);
+
+        $this->assertTrue(
+            array_key_exists('code', $responseContent['errors']),
+            'There is no validation for the code'
+        );
+        $this->assertTrue(
+            array_key_exists('name', $responseContent['errors']),
+            'There is no validation for the name'
+        );
+        $this->assertTrue(
+            array_key_exists('operation', $responseContent['errors']),
+            'There is no validation for the operation'
+        );
+
+        // Validate validions messages
+        $this->assertEquals(
+            'O campo código é obrigatório',
+            $responseContent['errors']['code'][0],
+            'The validation message for the code is incorrect.'
+        );
+
+        $this->assertEquals(
+            'O campo nome é obrigatório',
+            $responseContent['errors']['name'][0],
+            'The validation message for the name is incorrect.'
+        );
+
+        $this->assertEquals(
+            'O campo operação é obrigatório',
+            $responseContent['errors']['operation'][0],
+            'The validation message for the operation is incorrect.'
+        );
+    }
 }
