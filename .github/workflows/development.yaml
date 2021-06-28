@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Build server containers
         working-directory: ./server
-        run: docker-compose -f "docker-compose.yaml" build app --no-cache
+        run: docker-compose -f "docker-compose.yaml" build app
 
   # server-deploy-development:
   #   timeout-minutes: 10
