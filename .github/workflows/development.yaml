@@ -32,9 +32,6 @@ jobs:
       - name: Copy ENV TESTING Laravel Configuration for CI
         working-directory: ./server
         run: php -r "file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');"
-      - name: Copy ENV Laravel Configuration for CI
-        working-directory: ./server
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -51,13 +48,16 @@ jobs:
         run: composer install
       - name: Generate key
         working-directory: ./server
-        run: php artisan key:generate
+        run: php artisan key:generate --env=testing
       - name: Setup Permissions
         working-directory: ./server
         run: chmod -R 777 storage
       - name: Clear Config
         working-directory: ./server
-        run: php artisan config:clear
+        run: php artisan config:clear --env=testing
+      - name: Setup Permissions
+        working-directory: ./server
+        run: php artisan serve --host=0.0.0.0 --port=8080
       - name: Test with phpunit
         working-directory: ./server
         env:
@@ -65,6 +65,7 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: admin
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          APP_URL: http://127.0.0.1:8080
         run: vendor/bin/phpunit --coverage-text
 
   # server-build-development:
