@@ -79,6 +79,8 @@ jobs:
       - name: Build server containers
         working-directory: ./server
         run: docker-compose -f "docker-compose.yaml" build app
+      - name: Get image ID
+        run: echo ::set-env name=CONTAINER_ID::$(docker ps -aqf "name=my-savings-app-dev")
 
   # server-deploy-development:
   #   timeout-minutes: 10
