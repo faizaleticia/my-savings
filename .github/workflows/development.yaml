@@ -69,6 +69,7 @@ jobs:
         run: vendor/bin/phpunit --coverage-text
 
   server-build-development:
+    needs: server-test-development
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -77,7 +78,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Build server containers
         working-directory: ./server
-        run: docker-compose -f "docker-compose.yaml" build my-savings-app-dev --no-cache
+        run: docker-compose -f "docker-compose.yaml" build app --no-cache
 
   # server-deploy-development:
   #   timeout-minutes: 10
