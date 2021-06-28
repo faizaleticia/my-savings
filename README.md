@@ -41,4 +41,20 @@ To organize and prioritize the tasks, was used from Github Projects tool. In thi
 
 ## Test tools
 
+The Laravel framework is built to support testing with PHPUnit, it is already set up for the application.
+
+### Running Tests
+
+To run the tests, use phpunit:
+
+```sh
+./vendor/bin/phpunit
+```
+
+or:
+
+```sh
+php artisan test
+```
+
 ## Other tools
