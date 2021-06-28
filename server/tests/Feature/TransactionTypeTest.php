@@ -159,6 +159,41 @@ class TransactionTypeTest extends TestCase
     }
 
     /**
+     * Validate delete transaction type
+     */
+    public function testDestroyTransactionType()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $transactionTypes = TransactionType::all();
+
+        if ($transactionTypes->count() === 0) {
+            $response = $this->createTransactionType($token);
+
+            $response
+                ->assertStatus(200)
+                ->assertJsonStructure([
+                    'success', 'message', 'transaction_type'
+                ]);
+
+            $transactionType = (object) json_decode($response->getContent(), true)['transaction_type'];
+        } else {
+            $transactionType = $transactionTypes->random();
+        }
+
+        $baseUrl = config('app.url') . '/api/transaction-types/' . $transactionType->id . '?token=' . $token;
+
+        $response = $this->json('DELETE', $baseUrl . '/', []);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'transaction_type'
+            ]);
+    }
+
+    /**
      * Create transaction type
      *
      * @return Response
