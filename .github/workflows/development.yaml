@@ -68,16 +68,16 @@ jobs:
           APP_URL: "http://127.0.0.1:8080"
         run: vendor/bin/phpunit --coverage-text
 
-  # server-build-development:
-  #   timeout-minutes: 10
-  #   runs-on: ubuntu-latest
+  server-build-development:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v1
-  #     - name: Build server containers
-  #       working-directory: ./server
-  #       run: docker-compose -f "docker-compose.yaml" build --no-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build server containers
+        working-directory: ./server
+        run: docker-compose -f "docker-compose.yaml" build my-savings-app-dev --no-cache
 
   # server-deploy-development:
   #   timeout-minutes: 10
