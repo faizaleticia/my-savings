@@ -1,0 +1,38 @@
+.principal-register {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+#register {
+  width: 100%;
+  display: flex;
+
+  .form {
+    flex-direction: column;
+  }
+
+  .register {
+    padding-right: 50px;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .input-content {
+      width: 70%;
+      margin-bottom: 20px;
+
+      label {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+      }
+    }
+
+    .submit {
+      display: flex;
+      justify-content: flex-start;
+    }
+  }
+}
