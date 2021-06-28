@@ -21,7 +21,7 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: admin
-          MYSQL_DATABASE: my_savings_db
+          MYSQL_DATABASE: my_savings_db_test
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -61,7 +61,7 @@ jobs:
       - name: Test with phpunit
         working-directory: ./server
         env:
-          MYSQL_DATABASE: my_savings_db
+          MYSQL_DATABASE: my_savings_db_test
           DB_USERNAME: root
           DB_PASSWORD: admin
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
