@@ -45,7 +45,7 @@ jobs:
         run: |
           mysql --version
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uuser -psecret -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -padmin -e "SHOW DATABASES"
       - name: Install Dependencies (PHP Vendors)
         working-directory: ./server
         run: composer install
