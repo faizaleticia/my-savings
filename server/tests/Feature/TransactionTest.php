@@ -71,6 +71,49 @@ class TransactionTest extends TestCase
     }
 
     /**
+     * Validate delete all transactions by user account
+     */
+    public function testDestroyAllTransactionsByUserAccount()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $account = $this->getAccount($user, $token);
+
+        $quantidade = Transaction::where('account_id', $account->id)->count();
+
+        if ($quantidade == 0) {
+            $faker = Faker::create();
+
+            $quantidadeTransacoes = $faker->numberBetween(2, 5);
+
+            for ($i = 0; $i < $quantidadeTransacoes; $i++) {
+                $this->createTransaction($account, $token);
+            }
+        }
+
+        $quantidade = Transaction::where('account_id', $account->id)->count();
+
+        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '/transactions/?token=' . $token;
+
+        $response = $this->json('DELETE', $baseUrl . '/', []);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'transaction'
+            ]);
+
+        $transactions = (array) json_decode($response->getContent(), true)['transaction'];
+
+        $this->assertEquals($quantidade, sizeOf($transactions));
+
+        $quantidade = Transaction::where('account_id', $account->id)->count();
+
+        $this->assertEquals($quantidade, 0);
+    }
+
+    /**
      * Get Transaction
      *
      * @return Response
