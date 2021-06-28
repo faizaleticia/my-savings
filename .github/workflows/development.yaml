@@ -15,16 +15,39 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: admin
+          MYSQL_DATABASE: my_savings_db
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Copy ENV Laravel Configuration for CI
+        working-directory: ./server
+        run: php -r "file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');"
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "7.4"
-      - name: Install Packages
+      - name: Start mysql service
+        run: sudo /etc/init.d/mysql start
+      - name: Install Dependencies (PHP Vendors)
         working-directory: ./server
         run: composer install
+      - name: Generate key
+        working-directory: ./server
+        run: php artisan key:generate
+      - name: Clear Config
+        run: php artisan config:clear
+      - name: Test with phpunit
+        run: vendor/bin/phpunit --coverage-text
 
   # server-build-development:
   #   timeout-minutes: 10
