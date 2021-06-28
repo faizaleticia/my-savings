@@ -49,6 +49,41 @@ class TransactionTest extends TestCase
     }
 
     /**
+     * Validate update transaction by user account
+     */
+    public function testUpdateTransactionByUserAccount()
+    {
+        $user    = User::where('email', config('test.api.email'))->first();
+        $token   = JWTAuth::fromUser($user);
+
+        $account         = $this->getAccount($user, $token);
+        $transaction     = $this->getTransaction($account, $token);
+        $transactionType = $this->getTransactionType($token);
+
+        $baseUrl = config('app.url') . '/api/accounts/' . $account->id . '/transactions/' . $transaction->id . '?token=' . $token;
+
+        $faker   = Faker::create();
+
+        $response = $this->json('PUT', $baseUrl . '/', [
+            'value'               => $faker->numberBetween(1, 500),
+            'transaction_type_id' => $transactionType->id,
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'success', 'message', 'transaction'
+            ]);
+
+        $updatedTransaction = (object) json_decode($response->getContent(), true)['transaction'];
+
+        $newTransaction = Transaction::find($updatedTransaction->id);
+
+        $this->assertEquals($updatedTransaction->value, $newTransaction->value);
+        $this->assertEquals($updatedTransaction->transaction_type_id, $newTransaction->transaction_type_id);
+    }
+
+    /**
      * Validate delete transaction by user account
      */
     public function testDestroyTransactionByUserAccount()
@@ -170,7 +205,7 @@ class TransactionTest extends TestCase
      *
      * @return Response
      */
-    private function getTransactionTypes(String $token)
+    private function getTransactionType(String $token)
     {
         $transactionTypes = TransactionType::all();
 
@@ -202,7 +237,7 @@ class TransactionTest extends TestCase
 
         $faker = Faker::create();
 
-        $transactionType = $this->getTransactionTypes($token);
+        $transactionType = $this->getTransactionType($token);
 
         $response = $this->json('POST', $baseUrl . '/', [
             'value'               => $faker->numberBetween(0, 200),
