@@ -8,24 +8,22 @@
         </div>
         <div class="body">
           <form>
-            <fieldset>
-              <div>
-                <label>Letra:</label>
-                <input type="text" name="letter" v-model="letter" />
-              </div>
-              <div>
-                <label>Nome: </label>
-                <input type="text" name="name" v-model="name" />
-              </div>
-              <div>
-                <label>Descrição:</label>
-                <textarea name="description" v-model="description" />
-              </div>
-              <div>
-                <label>Cor:</label>
-                <textarea name="color" v-model="color" />
-              </div>
-            </fieldset>
+            <div class="m-b-10">
+              <label class="label">Letra:</label>
+              <input class="input" type="text" name="letter" v-model="letter" />
+            </div>
+            <div class="m-b-10">
+              <label class="label">Nome: </label>
+              <input class="input" type="text" name="name" v-model="name" />
+            </div>
+            <div class="m-b-10">
+              <label class="label">Descrição:</label>
+              <textarea class="input" name="description" v-model="description" />
+            </div>
+            <div>
+              <label class="label">Cor:</label>
+              <input class="label" type="color" name="color" v-model="color" />
+            </div>
           </form>
         </div>
         <div class="footer">

@@ -1,6 +1,8 @@
 <template>
   <div class="account" @mouseover="mouseOver" @mouseleave="mouseLeave">
-    <div class="color">{{ account.letter.toUpperCase() }}</div>
+    <div class="color" :style="`background-color: ${account.color}`">
+      {{ account.letter.toUpperCase() }}
+    </div>
     <div class="text">
       <div class="name">{{ account.name }}</div>
       <div class="positive">R$ 50,00</div>
