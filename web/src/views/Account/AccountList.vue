@@ -11,13 +11,19 @@
         v-for="account in accounts"
         v-bind:key="account.id"
         :account="account" />
-      <!-- <table-account :accounts="accounts" /> -->
+
+      <modal-manage-account
+        v-for="account in accounts"
+        :key="account.id"
+        :account="account"
+      />
     </div>
   </div>
 </template>
 
 <script>
 
+import ModalManageAccount from './ModalManageAccount';
 import NewAccountItem from './NewAccountItem';
 import api from '../../services/api';
 
@@ -25,6 +31,7 @@ export default {
   name: 'AccountList',
 
   components: {
+    ModalManageAccount,
     NewAccountItem,
   },
 

@@ -123,7 +123,7 @@
     background-color: #e54d42;
     padding: 0px;
     margin: 0px;
-    width: 65px;
+    width: 85px;
     margin: 10px;
     border-radius: 8px;
     display: flex;
@@ -155,4 +155,17 @@
       width: 100%;
     }
   }
+}
+
+.button-content {
+  width: 60px;
+}
+
+.button-account {
+  margin-top: 3px;
+  margin-right: 0px;
+  width: 35px;
+  height: 35px;
+  padding: 0px;
+  transition: all 0.5 ease-in-out;
 }
