@@ -1,36 +1,58 @@
 <template>
-  <tr>
-    <td>
-      {{ account.letter }}
-    </td>
-    <td class="text-left">
-      {{ account.name }}
-    </td>
-    <td class="text-left">
-      {{ account.description }}
-    </td>
-    <td>
-      <button type="button" class="btn btn-ternary" @click="showManageAcccount">
-        <i class="icon far fa-edit" />
-        Editar
-      </button>
-      <button type="button" class="btn btn-ternary" @click="deleteAccount">
-        <i class="icon far fa-trash-alt" />
-        Excluir
-      </button>
-    </td>
-  </tr>
+  <div class="account" @mouseover="mouseOver" @mouseleave="mouseLeave">
+    <div class="color">{{ account.letter.toUpperCase() }}</div>
+    <div class="text">
+      <div class="name">{{ account.name }}</div>
+      <div class="positive">R$ 50,00</div>
+    </div>
+    <div class="button-content">
+      <transition name="fade">
+        <div v-show="isHover">
+          <button
+            type="button"
+            class="button-account btn btn-ternary"
+            title="Editar"
+            @click="showManageAcccount">
+            <i class="far fa-edit" />
+          </button>
+          <button
+            type="button"
+            class="button-account btn btn-ternary"
+            title="Excluir"
+            @click="deleteAccount" >
+            <i class="far fa-trash-alt" />
+          </button>
+        </div>
+      </transition>
+    </div>
+  </div>
 </template>
 
 <script>
+
 import api from '../../services/api';
+
 export default {
   name: 'AccountItem',
 
   props: ['account'],
 
+  data () {
+    return {
+      isHover: false,
+    }
+  },
+
   methods: {
-    showManageAcccount() {
+    mouseOver () {
+      this.isHover = true;
+    },
+
+    mouseLeave () {
+      this.isHover = false;
+    },
+
+    showManageAcccount () {
       const modal = document.getElementById(`modal_${this.account.id}`);
       modal.classList.remove('hidden');
       modal.classList.add('show');
@@ -54,6 +76,10 @@ export default {
           }
         });
     },
-  }
+  },
 }
 </script>
+
+<style lang="scss">
+  @import "./styles.scss";
+</style>

@@ -7,7 +7,7 @@
       Nenhuma conta cadastrada.
     </div>
     <div class="account-content" v-else>
-      <new-account-item
+      <account-item
         v-for="account in accounts"
         v-bind:key="account.id"
         :account="account" />
@@ -24,7 +24,7 @@
 <script>
 
 import ModalManageAccount from './ModalManageAccount';
-import NewAccountItem from './NewAccountItem';
+import AccountItem from './AccountItem';
 import api from '../../services/api';
 
 export default {
@@ -32,7 +32,7 @@ export default {
 
   components: {
     ModalManageAccount,
-    NewAccountItem,
+    AccountItem,
   },
 
   data() {
