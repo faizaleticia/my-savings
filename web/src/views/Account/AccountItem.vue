@@ -5,7 +5,7 @@
     </div>
     <div class="text">
       <div class="name">{{ account.name }}</div>
-      <div class="positive">R$ 50,00</div>
+      <div :class="`${totalClass} positive`" v-show="!loading.total">{{ formattedTotal }}</div>
     </div>
     <div class="button-content">
       <transition name="fade">
@@ -42,7 +42,32 @@ export default {
   data () {
     return {
       isHover: false,
+      total: 0,
+
+      loading: {
+        total: true,
+      }
     }
+  },
+
+  mounted () {
+    this.getTotal();
+  },
+
+  computed: {
+    formattedTotal () {
+      return this.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    },
+
+    totalClass () {
+      if (this.total > 0) {
+        return 'green';
+      } else if (this.total < 0) {
+        return 'red';
+      } else {
+        return 'gray';
+      }
+    },
   },
 
   methods: {
@@ -78,6 +103,17 @@ export default {
           }
         });
     },
+
+    getTotal () {
+      api.get(`/accounts/${this.account.id}/total`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('user-token')}`
+        }
+      }).then((response) => {
+        this.total = response.data.total;
+        this.loading.total = false;
+      });
+    }
   },
 }
 </script>

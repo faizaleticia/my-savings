@@ -150,9 +150,20 @@
     .positive {
       text-align: left;
       margin-top: 7px;
-      color: green;
       font-weight: 500;
       width: 100%;
+    }
+
+    .green {
+      color: green;
+    }
+
+    .gray {
+      color: gray;
+    }
+
+    .red {
+      color: rgb(148, 0, 0);
     }
   }
 }
