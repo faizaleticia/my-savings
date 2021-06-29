@@ -102,3 +102,81 @@
   -webkit-transition: opacity 600ms, visibility 600ms;
   transition: opacity 600ms, visibility 600ms;
 }
+
+.account-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.account {
+  display: flex;
+  border: 1px solid #c3c3d9;
+  padding: 0px;
+  margin: 0px;
+  height: 80px;
+  border-radius: 8px;
+  background-color: #c3c3d92b;
+  flex: 0 32%;
+
+  .color {
+    background-color: #e54d42;
+    padding: 0px;
+    margin: 0px;
+    width: 85px;
+    margin: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2.4rem;
+    font-weight: 600;
+  }
+
+  .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    flex-direction: column;
+    width: -webkit-fill-available;
+
+    .name {
+      text-align: left;
+      width: 100%;
+    }
+
+    .positive {
+      text-align: left;
+      margin-top: 7px;
+      font-weight: 500;
+      width: 100%;
+    }
+
+    .green {
+      color: green;
+    }
+
+    .gray {
+      color: gray;
+    }
+
+    .red {
+      color: rgb(148, 0, 0);
+    }
+  }
+}
+
+.button-content {
+  width: 60px;
+}
+
+.button-account {
+  margin-top: 3px;
+  margin-right: 0px;
+  width: 35px;
+  height: 35px;
+  padding: 0px;
+  transition: all 0.5 ease-in-out;
+}

@@ -1,36 +1,85 @@
 <template>
-  <tr>
-    <td>
-      {{ account.letter }}
-    </td>
-    <td class="text-left">
-      {{ account.name }}
-    </td>
-    <td class="text-left">
-      {{ account.description }}
-    </td>
-    <td>
-      <button type="button" class="btn btn-ternary" @click="showManageAcccount">
-        <i class="icon far fa-edit" />
-        Editar
-      </button>
-      <button type="button" class="btn btn-ternary" @click="deleteAccount">
-        <i class="icon far fa-trash-alt" />
-        Excluir
-      </button>
-    </td>
-  </tr>
+  <div class="account" @mouseover="mouseOver" @mouseleave="mouseLeave">
+    <div class="color" :style="`background-color: ${account.color}`">
+      {{ account.letter.toUpperCase() }}
+    </div>
+    <div class="text">
+      <div class="name">{{ account.name }}</div>
+      <div :class="`${totalClass} positive`" v-show="!loading.total">{{ formattedTotal }}</div>
+    </div>
+    <div class="button-content">
+      <transition name="fade">
+        <div v-show="isHover">
+          <button
+            type="button"
+            class="button-account btn btn-ternary"
+            title="Editar"
+            @click="showManageAcccount">
+            <i class="far fa-edit" />
+          </button>
+          <button
+            type="button"
+            class="button-account btn btn-ternary"
+            title="Excluir"
+            @click="deleteAccount" >
+            <i class="far fa-trash-alt" />
+          </button>
+        </div>
+      </transition>
+    </div>
+  </div>
 </template>
 
 <script>
+
 import api from '../../services/api';
+
 export default {
   name: 'AccountItem',
 
   props: ['account'],
 
+  data () {
+    return {
+      isHover: false,
+      total: 0,
+
+      loading: {
+        total: true,
+      }
+    }
+  },
+
+  mounted () {
+    this.getTotal();
+  },
+
+  computed: {
+    formattedTotal () {
+      return this.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    },
+
+    totalClass () {
+      if (this.total > 0) {
+        return 'green';
+      } else if (this.total < 0) {
+        return 'red';
+      } else {
+        return 'gray';
+      }
+    },
+  },
+
   methods: {
-    showManageAcccount() {
+    mouseOver () {
+      this.isHover = true;
+    },
+
+    mouseLeave () {
+      this.isHover = false;
+    },
+
+    showManageAcccount () {
       const modal = document.getElementById(`modal_${this.account.id}`);
       modal.classList.remove('hidden');
       modal.classList.add('show');
@@ -54,6 +103,21 @@ export default {
           }
         });
     },
-  }
+
+    getTotal () {
+      api.get(`/accounts/${this.account.id}/total`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('user-token')}`
+        }
+      }).then((response) => {
+        this.total = response.data.total;
+        this.loading.total = false;
+      });
+    }
+  },
 }
 </script>
+
+<style lang="scss">
+  @import "./styles.scss";
+</style>

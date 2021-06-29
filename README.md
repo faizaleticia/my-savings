@@ -6,11 +6,11 @@ My Savings is an online finance management platform, which allows its users to h
 
 ## Server
 
-The server API was develop using PHP as language and Laravel as framework.
+The server API was developed using PHP as a language and Laravel as a framework. The version of Laravel used in this project is 7 and its documentation is available online, to access click here.
 
 ## Web
 
-The web application was develop using Javascript as language and Vue.js as framework.
+The web application was developed using Javascript as a language and Vue.js as a framework.
 
 ## Operation System
 
