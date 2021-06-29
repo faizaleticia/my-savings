@@ -6,22 +6,26 @@
     <div class="text-information" v-else-if="noInformation">
       Nenhuma conta cadastrada.
     </div>
-    <div v-else>
-      <table-account :accounts="accounts" />
+    <div class="account-content" v-else>
+      <new-account-item
+        v-for="account in accounts"
+        v-bind:key="account.id"
+        :account="account" />
+      <!-- <table-account :accounts="accounts" /> -->
     </div>
   </div>
 </template>
 
 <script>
 
-import TableAccount from './TableAccount';
+import NewAccountItem from './NewAccountItem';
 import api from '../../services/api';
 
 export default {
   name: 'AccountList',
 
   components: {
-    TableAccount,
+    NewAccountItem,
   },
 
   data() {
