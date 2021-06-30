@@ -1,4 +1,4 @@
-name: Build, Test and Deploy in Development
+name: Build, Test and Deploy in Production
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  server-test-development:
+  server-test-production:
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -63,8 +63,8 @@ jobs:
           APP_URL: "http://127.0.0.1:8080"
         run: vendor/bin/phpunit --coverage-text
 
-  server-build-development:
-    needs: server-test-development
+  server-build-production:
+    needs: server-test-production
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -76,7 +76,7 @@ jobs:
         run: docker-compose -f "docker-compose.yaml" build
       - name: Update enviroment variables Web
         working-directory: ./web
-        run: cp src/services/api.dev.js src/services/api.js
+        run: cp src/services/api.prod.js src/services/api.js
       - name: Build web containers
         working-directory: ./web
         run: docker-compose -f "docker-compose.yaml" build
@@ -87,12 +87,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.PACKAGE_TOKEN }}
       - name: Push server image to Containers Registry
-        run: docker push ghcr.io/faizaleticia/my-savings/my-savings-app-dev
+        run: docker push ghcr.io/faizaleticia/my-savings/my-savings-app-prod
       - name: Push web image to Containers Registry
-        run: docker push ghcr.io/faizaleticia/my-savings/my-savings-web-dev
+        run: docker push ghcr.io/faizaleticia/my-savings/my-savings-web-prod
 
-  server-deploy-development:
-    needs: server-build-development
+  server-deploy-production:
+    needs: server-build-production
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -125,12 +125,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.PACKAGE_TOKEN }}
       - name: Containeir pull Server and Web
-        run: ssh univates 'docker pull ghcr.io/faizaleticia/my-savings/my-savings-app-dev:latest & docker pull ghcr.io/faizaleticia/my-savings/my-savings-web-dev:latest'
+        run: ssh univates 'docker pull ghcr.io/faizaleticia/my-savings/my-savings-app-prod:latest & docker pull ghcr.io/faizaleticia/my-savings/my-savings-web-prod:latest'
       - name: Run Server container
         run: |
-          ssh univates 'docker rm --force my-savings-app-dev && docker run --publish 8080:8080 -d --name my-savings-app-dev ghcr.io/faizaleticia/my-savings/my-savings-app-dev'
-          ssh univates 'docker rm --force my-savings-web-dev && docker run --publish 8081:8081 -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev'
+          ssh univates 'docker rm --force my-savings-app-prod && docker run --publish 8080:8080 -d --name my-savings-app-prod ghcr.io/faizaleticia/my-savings/my-savings-app-prod'
+          ssh univates 'docker rm --force my-savings-web-prod && docker run --publish 8081:8081 -d --name my-savings-web-prod ghcr.io/faizaleticia/my-savings/my-savings-web-prod'
       - name: Update Enviroment Server
-        run: ssh univates 'cd /var/www/my-savings-dev/server && docker cp .env my-savings-app-dev:/var/www/.env'
+        run: ssh univates 'cd /var/www/my-savings-prod/server && docker cp .env my-savings-app-prod:/var/www/.env'
       - name: Migrate Database
-        run: ssh univates 'docker exec my-savings-app-dev php artisan migrate'
+        run: ssh univates 'docker exec my-savings-app-prod php artisan migrate'
