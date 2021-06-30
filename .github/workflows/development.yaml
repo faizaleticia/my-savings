@@ -123,9 +123,11 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
-      - name: Enter Development Folder
-        run: ssh univates 'cd /var/www/my-savings-dev'
       - name: Update repository
-        run: ssh univates 'git pull'
-      - name: Enter Server Folder
-        run: ssh univates 'cd server'
+        run: ssh univates 'cd /var/www/my-savings-dev & git pull'
+      - name: Containeir pull Server and Web
+        run: ssh univates 'docker pull ghcr.io/faizaleticia/my-savings/my-savings-app-dev:latest & docker pull ghcr.io/faizaleticia/my-savings/my-savings-web-dev:latest'
+       - name: Run Server container
+        run: |
+          ssh server 'docker rm --force my-savings-app-dev && docker run -d --name my-savings-app-dev ghcr.io/faizaleticia/my-savings/my-savings-app-dev:latest'
+          ssh server 'docker rm --force my-savings-web-dev && docker run -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev:latest'
