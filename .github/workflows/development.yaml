@@ -91,8 +91,8 @@ jobs:
           context: app
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/${{ env.PROJECT }}:${{ github.sha }}
-            ghcr.io/${{ github.repository }}/${{ env.PROJECT }}:${{ steps.get_stage.outputs.STAGE }}
+            ghcr.io/${{ github.repository }}/my-savings-app-dev:${{ github.sha }}
+            ghcr.io/${{ github.repository }}/my-savings-app-dev:${{ steps.get_stage.outputs.STAGE }}
 
   # server-deploy-development:
   #   timeout-minutes: 10
