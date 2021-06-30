@@ -8,3 +8,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+    image: ghcr.io/faizaleticia/my-savings/my-savings-web-dev
