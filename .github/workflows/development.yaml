@@ -132,8 +132,6 @@ jobs:
         run: |
           ssh univates 'docker rm --force my-savings-app-dev && docker run --publish 8080:8080 -d --name my-savings-app-dev ghcr.io/faizaleticia/my-savings/my-savings-app-dev'
           ssh univates 'docker rm --force my-savings-web-dev && docker run --publish 8081:8081 -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev'
-      - name: Update Repository
-        run: ssh univates 'cd /var/www/my-savings-dev && git pull'
       - name: Update Enviroment Server
         run: ssh univates 'cd /var/www/my-savings-dev/server && docker cp .env my-savings-app-dev:/var/www/.env'
       - name: Migrate Database
