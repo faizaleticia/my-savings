@@ -80,13 +80,17 @@ jobs:
         working-directory: ./server
         run: docker-compose -f "docker-compose.yaml" build app
 
-  # server-deploy-development:
-  #   timeout-minutes: 10
-  #   runs-on: ubuntu-latest
+  server-deploy-development:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v1
-  # - name: Build server containers
-  #   working-directory: ./server
-  #   run: docker-compose -f "docker-compose.yaml" build --no-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: ls -a via ssh
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: ls -a
+          host: 177.44.248.51
+          username: univates
+          password: dc415@VM
