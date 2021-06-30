@@ -85,9 +85,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkpout
         uses: actions/checkout@v1
       - name: executing remote ssh commands using ssh key
         run: sudo apt install sshpass
       - name: run ssh
-        run: sshpass -p dc415@VM ssh univates@177.44.248.51
+        run: sshpass -p dc415@VM ssh univates@177.44.248.51 -p 5678
