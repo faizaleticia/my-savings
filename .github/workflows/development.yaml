@@ -78,7 +78,7 @@ jobs:
         run: docker-compose -f "docker-compose.yaml" build
       - name: Update enviroment variables Web
         working-directory: ./web
-        run: cp api.dev.js api.js
+        run: cp src/services/api.dev.js src/services/api.js
       - name: Build web containers
         working-directory: ./web
         run: docker-compose -f "docker-compose.yaml" build
