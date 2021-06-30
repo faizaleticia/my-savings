@@ -135,4 +135,4 @@ jobs:
       - name: Update Enviroment Server
         run: ssh univates 'cd /var/www/my-savings-dev/server && docker cp .env my-savings-app-dev:/var/www/.env'
       - name: Migrate Database
-        run: ssh univates 'docker exec -it my-savings-app-dev php artisan migrate'
+        run: ssh univates 'docker exec my-savings-app-dev php artisan migrate'
