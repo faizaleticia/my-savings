@@ -1,9 +1,13 @@
 <template>
   <div class="main-content contact">
     <div class="page-title d-flex jc-space-between">
-      <div>Contas</div>
+      <div>Contas 1</div>
       <div>
-        <button type="button" class="btn btn-primary" @click="showManageAcccount">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="showManageAcccount"
+        >
           <i class="icon fas fa-plus" />
           Adicionar conta
         </button>
@@ -18,30 +22,29 @@
 </template>
 
 <script>
-
-import AccountList from './AccountList';
-import ModalManageAccount from './ModalManageAccount';
+import AccountList from "./AccountList";
+import ModalManageAccount from "./ModalManageAccount";
 
 export default {
-  name: 'Account',
+  name: "Account",
 
   components: {
     AccountList,
-    ModalManageAccount,
+    ModalManageAccount
   },
 
   methods: {
     showManageAcccount() {
       const modal = document.getElementById(`modal_`);
-      modal.classList.remove('hidden');
-      modal.classList.add('show');
+      modal.classList.remove("hidden");
+      modal.classList.add("show");
       const body = document.body;
-      body.classList.add('show-modal');
-    },
-  },
-}
+      body.classList.add("show-modal");
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-  @import "./styles.scss";
+@import "./styles.scss";
 </style>
