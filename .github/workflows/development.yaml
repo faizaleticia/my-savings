@@ -90,4 +90,4 @@ jobs:
       - name: executing remote ssh commands using ssh key
         run: sudo apt install sshpass
       - name: run ssh
-        run: sshpass -p dc415@VM ssh univates@177.44.248.51 -p 5678
+        run: sshpass -p dc415@VM ssh univates@177.44.248.51 -p 5678 -tt
