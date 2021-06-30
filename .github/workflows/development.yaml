@@ -79,14 +79,19 @@ jobs:
       - name: Build server containers
         working-directory: ./server
         run: docker-compose -f "docker-compose.yaml" build app
+      - name: Build web containers
+        working-directory: ./web
+        run: docker-compose -f "docker-compose.yaml" build app
       - name: Login to GitHub Docker Registry
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.PACKAGE_TOKEN }}
-      - name: Push image to Containers Registry
+      - name: Push server image to Containers Registry
         run: docker push ghcr.io/faizaleticia/my-savings/my-savings-app-dev
+      - name: Push web image to Containers Registry
+        run: docker push ghcr.io/faizaleticia/my-savings/my-savings-web-dev
 
   # server-deploy-development:
   #   timeout-minutes: 10
