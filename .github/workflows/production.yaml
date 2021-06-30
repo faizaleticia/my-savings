@@ -128,8 +128,8 @@ jobs:
         run: ssh univates 'docker pull ghcr.io/faizaleticia/my-savings/my-savings-app-prod:latest & docker pull ghcr.io/faizaleticia/my-savings/my-savings-web-prod:latest'
       - name: Run Server container
         run: |
-          ssh univates 'docker rm --force my-savings-app-prod && docker run --publish 8080:8080 -d --name my-savings-app-prod ghcr.io/faizaleticia/my-savings/my-savings-app-prod'
-          ssh univates 'docker rm --force my-savings-web-prod && docker run --publish 8081:8081 -d --name my-savings-web-prod ghcr.io/faizaleticia/my-savings/my-savings-web-prod'
+          ssh univates 'docker rm --force my-savings-app-prod && docker run --publish 8181:8181 -d --name my-savings-app-prod ghcr.io/faizaleticia/my-savings/my-savings-app-prod'
+          ssh univates 'docker rm --force my-savings-web-prod && docker run --publish 80:80 -d --name my-savings-web-prod ghcr.io/faizaleticia/my-savings/my-savings-web-prod'
       - name: Update Enviroment Server
         run: ssh univates 'cd /var/www/my-savings-prod/server && docker cp .env my-savings-app-prod:/var/www/.env'
       - name: Migrate Database
