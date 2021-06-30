@@ -88,7 +88,7 @@ jobs:
       - name: Build container image
         uses: docker/build-push-action@v2
         with:
-          context: app
+          context: ./server
           push: true
           tags: faizaleticia/my-savings-app-dev:latest
 
