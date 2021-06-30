@@ -90,9 +90,7 @@ jobs:
         with:
           context: app
           push: true
-          tags: |
-            ghcr.io/${{ github.repository }}/my-savings-app-dev:${{ github.sha }}
-            ghcr.io/${{ github.repository }}/my-savings-app-dev:${{ steps.get_stage.outputs.STAGE }}
+          tags: faizaleticia/my-savings-app-dev:latest
 
   # server-deploy-development:
   #   timeout-minutes: 10
