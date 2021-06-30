@@ -91,6 +91,6 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: 177.44.248.51
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: univates
+          password: dc415@VM
           script: sudo ls -lha
