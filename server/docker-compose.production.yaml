@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile.app.production
     ports:
       - "8181:8181"
-    image: my_savings_prod
+      image: ghcr.io/faizaleticia/my-savings/my-savings-app-prod
     container_name: my-savings-app-prod
     restart: unless-stopped
     working_dir: /var/www/

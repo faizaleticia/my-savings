@@ -8,3 +8,4 @@ services:
       dockerfile: Dockerfile.production
     ports:
       - "80:80"
+    image: ghcr.io/faizaleticia/my-savings/my-savings-web-prod
