@@ -85,9 +85,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkpout
-        uses: actions/checkout@v1
-      - name: executing remote ssh commands using ssh key
-        run: sudo apt install sshpass
-      - name: run ssh
-        run: sshpass -p dc415@VM ssh univates@177.44.248.51 -p 5678 -tt
+      - name: Configure SSH
+        run: |
+          eval $(ssh-agent -s)
+          mkdir -p ~/.ssh/
+          chmod 700 ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-add ~/.ssh/id_ed25519
+          cat >>~/.ssh/config <<END
+          Host server
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port 2201
+            IdentityFile ~/.ssh/id_ed25519
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+      - name: Test SSH command
+        run: ssh server 'ls -a'
