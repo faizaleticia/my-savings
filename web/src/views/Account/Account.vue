@@ -1,7 +1,7 @@
 <template>
   <div class="main-content contact">
     <div class="page-title d-flex jc-space-between">
-      <div>Contas</div>
+      <div>Contas - Alterado</div>
       <div>
         <button
           type="button"
