@@ -76,6 +76,9 @@ jobs:
       - name: Build server containers
         working-directory: ./server
         run: docker-compose -f "docker-compose.yaml" build
+      - name: Update enviroment variables Web
+        working-directory: ./web
+        run: cp api.dev.js api.js
       - name: Build web containers
         working-directory: ./web
         run: docker-compose -f "docker-compose.yaml" build
@@ -130,4 +133,4 @@ jobs:
           ssh univates 'docker rm --force my-savings-app-dev && docker run --publish 8080:8080 -d --name my-savings-app-dev ghcr.io/faizaleticia/my-savings/my-savings-app-dev'
           ssh univates 'docker rm --force my-savings-web-dev && docker run --publish 8081:80 -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev'
       - name: Update Enviroment Server
-        run: cd /var/www/my-savings-dev/server && docker cp .env my-savings-app-dev:/var/www/.env
+        run: ssh univates 'cd /var/www/my-savings-dev/server && docker cp .env my-savings-app-dev:/var/www/.env'
