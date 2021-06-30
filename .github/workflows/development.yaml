@@ -128,4 +128,4 @@ jobs:
       - name: Run Server container
         run: |
           ssh univates 'docker rm --force my-savings-app-dev && docker run --publish 8080:8080 -d --name my-savings-app-dev ghcr.io/faizaleticia/my-savings/my-savings-app-dev'
-          ssh univates 'docker rm --force my-savings-web-dev && docker run --public 8081:80 -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev'
+          ssh univates 'docker rm --force my-savings-web-dev && docker run --publish 8081:80 -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev'
