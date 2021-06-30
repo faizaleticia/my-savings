@@ -87,10 +87,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: ls -a via ssh
-        uses: garygrossgarten/github-action-ssh@release
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
         with:
-          command: ls -a
           host: 177.44.248.51
-          username: univates
-          password: dc415@VM
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: sudo ls -lha
