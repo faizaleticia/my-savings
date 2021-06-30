@@ -124,8 +124,8 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
       - name: Containeir pull Server and Web
-        run: ssh univates 'docker pull ghcr.io/faizaleticia/my-savings/my-savings-app-dev:latest & docker pull ghcr.io/faizaleticia/my-savings/my-savings-web-dev:latest'
+        run: ssh univates 'docker pull ghcr.io/faizaleticia/my-savings/my-savings-app-dev & docker pull ghcr.io/faizaleticia/my-savings/my-savings-web-dev'
       - name: Run Server container
         run: |
-          ssh univates 'docker rm --force my-savings-app-dev && docker run -d --name my-savings-app-dev ghcr.io/faizaleticia/my-savings/my-savings-app-dev:latest'
-          ssh univates 'docker rm --force my-savings-web-dev && docker run -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev:latest'
+          ssh univates 'docker rm --force my-savings-app-dev && docker run -d --name my-savings-app-dev ghcr.io/faizaleticia/my-savings/my-savings-app-dev'
+          ssh univates 'docker rm --force my-savings-web-dev && docker run -d --name my-savings-web-dev ghcr.io/faizaleticia/my-savings/my-savings-web-dev'
