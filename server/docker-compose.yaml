@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    image: https://ghcr.io/faizaleticia/my-savings/my-savings-app-dev
+    image: ghcr.io/faizaleticia/my-savings/my-savings-app-dev
     container_name: my-savings-app-dev
     restart: unless-stopped
     working_dir: /var/www/
